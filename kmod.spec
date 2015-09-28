@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 21
-Release  : 19
+Release  : 20
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-21.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-21.tar.xz
 Summary  : Library to deal with kernel modules
