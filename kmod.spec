@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 22
-Release  : 21
+Release  : 22
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-22.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-22.tar.xz
 Summary  : Library to deal with kernel modules
