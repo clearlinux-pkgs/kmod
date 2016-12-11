@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 23
-Release  : 24
+Release  : 25
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 Summary  : Library to deal with kernel modules
@@ -90,10 +90,10 @@ lib components for the kmod package.
 
 %build
 export LANG=C
-export CFLAGS="$CFLAGS -ffunction-sections -Os "
-export FCFLAGS="$CFLAGS -ffunction-sections -Os "
-export FFLAGS="$CFLAGS -ffunction-sections -Os "
-export CXXFLAGS="$CXXFLAGS -ffunction-sections -Os "
+export CFLAGS="$CFLAGS -Os -ffunction-sections "
+export FCFLAGS="$CFLAGS -Os -ffunction-sections "
+export FFLAGS="$CFLAGS -Os -ffunction-sections "
+export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
 %reconfigure --disable-static --enable-tools --disable-test-modules
 make V=1  %{?_smp_mflags}
 
@@ -128,8 +128,8 @@ rm -rf %{buildroot}
 %files dev
 %defattr(-,root,root,-)
 /usr/include/*.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libkmod.so
+/usr/lib64/pkgconfig/libkmod.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -138,4 +138,5 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libkmod.so.2
+/usr/lib64/libkmod.so.2.3.1
