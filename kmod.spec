@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 23
-Release  : 25
+Release  : 26
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-23.tar.xz
 Summary  : Library to deal with kernel modules
@@ -17,14 +17,21 @@ Requires: kmod-doc
 BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : docbook-xml
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : gettext-bin
 BuildRequires : git
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libtool
 BuildRequires : libtool-dev
 BuildRequires : m4
 BuildRequires : pkg-config-dev
+BuildRequires : pkgconfig(32liblzma)
+BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : python-dev
@@ -67,6 +74,17 @@ Provides: kmod-devel
 dev components for the kmod package.
 
 
+%package dev32
+Summary: dev32 components for the kmod package.
+Group: Default
+Requires: kmod-lib32
+Requires: kmod-bin
+Requires: kmod-data
+
+%description dev32
+dev32 components for the kmod package.
+
+
 %package doc
 Summary: doc components for the kmod package.
 Group: Documentation
@@ -84,9 +102,21 @@ Requires: kmod-data
 lib components for the kmod package.
 
 
+%package lib32
+Summary: lib32 components for the kmod package.
+Group: Default
+Requires: kmod-data
+
+%description lib32
+lib32 components for the kmod package.
+
+
 %prep
 %setup -q -n kmod-23
 %patch1 -p1
+pushd ..
+cp -a kmod-23 build32
+popd
 
 %build
 export LANG=C
@@ -96,6 +126,13 @@ export FFLAGS="$CFLAGS -Os -ffunction-sections "
 export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
 %reconfigure --disable-static --enable-tools --disable-test-modules
 make V=1  %{?_smp_mflags}
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%reconfigure --disable-static --enable-tools --disable-test-modules --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 
 %check
 export LANG=C
@@ -106,6 +143,15 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
@@ -131,6 +177,11 @@ rm -rf %{buildroot}
 /usr/lib64/libkmod.so
 /usr/lib64/pkgconfig/libkmod.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libkmod.so
+/usr/lib32/pkgconfig/32libkmod.pc
+
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/man/man5/*
@@ -140,3 +191,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libkmod.so.2
 /usr/lib64/libkmod.so.2.3.1
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libkmod.so.2
+/usr/lib32/libkmod.so.2.3.1

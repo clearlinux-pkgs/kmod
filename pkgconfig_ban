@@ -3,3 +3,4 @@
 # undesirable. One name per line, no whitespace.
 #
 python-${PYTHON_VERSION}
+32python-${PYTHON_VERSION}
