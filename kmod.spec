@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 24
-Release  : 27
+Release  : 28
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Summary  : Library to deal with kernel modules
@@ -120,12 +120,15 @@ cp -a kmod-24 build32
 popd
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1487945855
-export CFLAGS="$CFLAGS -Os -ffunction-sections "
-export FCFLAGS="$CFLAGS -Os -ffunction-sections "
-export FFLAGS="$CFLAGS -Os -ffunction-sections "
-export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
+export SOURCE_DATE_EPOCH=1492696724
+export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 %reconfigure --disable-static --enable-tools --disable-test-modules
 make V=1  %{?_smp_mflags}
 pushd ../build32/
@@ -141,11 +144,11 @@ popd
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1487945855
+export SOURCE_DATE_EPOCH=1492696724
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
