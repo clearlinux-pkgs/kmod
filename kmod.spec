@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 24
-Release  : 28
+Release  : 29
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Summary  : Library to deal with kernel modules
