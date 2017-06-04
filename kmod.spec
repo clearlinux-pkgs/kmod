@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 24
-Release  : 29
+Release  : 31
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Summary  : Library to deal with kernel modules
@@ -14,29 +14,21 @@ Requires: kmod-bin
 Requires: kmod-lib
 Requires: kmod-data
 Requires: kmod-doc
-BuildRequires : automake
-BuildRequires : automake-dev
 BuildRequires : docbook-xml
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
-BuildRequires : gettext-bin
 BuildRequires : git
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
-BuildRequires : libtool
-BuildRequires : libtool-dev
-BuildRequires : m4
-BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(32liblzma)
 BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : python-dev
 BuildRequires : sed
-Patch1: 0001-kmod-Install-legacy-scripts.patch
 
 %description
 kmod - Linux kernel module handling
@@ -114,7 +106,6 @@ lib32 components for the kmod package.
 
 %prep
 %setup -q -n kmod-24
-%patch1 -p1
 pushd ..
 cp -a kmod-24 build32
 popd
@@ -124,22 +115,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492696724
-export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-%reconfigure --disable-static --enable-tools --disable-test-modules
+export SOURCE_DATE_EPOCH=1496538596
+export CFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
+%configure --disable-static --enable-tools --disable-test-modules
 make V=1  %{?_smp_mflags}
+
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%reconfigure --disable-static --enable-tools --disable-test-modules  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --enable-tools --disable-test-modules   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
-
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -148,7 +139,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1492696724
+export SOURCE_DATE_EPOCH=1496538596
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -160,6 +151,14 @@ popd
 fi
 popd
 %make_install
+## make_install_append content
+ln -s kmod %{buildroot}/usr/bin/depmod
+ln -s kmod %{buildroot}/usr/bin/insmod
+ln -s kmod %{buildroot}/usr/bin/lsmod
+ln -s kmod %{buildroot}/usr/bin/modinfo
+ln -s kmod %{buildroot}/usr/bin/modprobe
+ln -s kmod %{buildroot}/usr/bin/rmmod
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)

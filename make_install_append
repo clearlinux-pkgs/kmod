@@ -1,0 +1,6 @@
+ln -s kmod %{buildroot}/usr/bin/depmod
+ln -s kmod %{buildroot}/usr/bin/insmod
+ln -s kmod %{buildroot}/usr/bin/lsmod
+ln -s kmod %{buildroot}/usr/bin/modinfo
+ln -s kmod %{buildroot}/usr/bin/modprobe
+ln -s kmod %{buildroot}/usr/bin/rmmod
