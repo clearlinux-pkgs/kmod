@@ -1,0 +1,13 @@
+# This file contains recursive sources that require this package
+LVM2
+autofs
+libvirt
+linux
+linux-aws
+linux-gce
+linux-hyperv
+linux-hyperv-lts
+linux-hyperv-mini
+linux-kvm
+linux-lts
+linux-tools

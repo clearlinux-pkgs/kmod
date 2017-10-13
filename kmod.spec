@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 24
-Release  : 31
+Release  : 33
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Summary  : Library to deal with kernel modules
@@ -115,13 +115,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1496538596
-export CFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -Os -Wl,--gc-sections -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export SOURCE_DATE_EPOCH=1507910143
+export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 %configure --disable-static --enable-tools --disable-test-modules
-make V=1  %{?_smp_mflags}
+make V=1  %{?_smp_mflags} LIBS=-lpthread
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
@@ -129,7 +129,7 @@ export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static --enable-tools --disable-test-modules   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make V=1  %{?_smp_mflags}
+make V=1  %{?_smp_mflags} LIBS=-lpthread
 popd
 %check
 export LANG=C
@@ -139,7 +139,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1496538596
+export SOURCE_DATE_EPOCH=1507910143
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
