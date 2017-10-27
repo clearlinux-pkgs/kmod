@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 24
-Release  : 33
+Release  : 34
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-24.tar.xz
 Summary  : Library to deal with kernel modules
@@ -115,7 +115,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1507910143
+export SOURCE_DATE_EPOCH=1509109477
+unset LD_AS_NEEDED
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -139,7 +140,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1507910143
+export SOURCE_DATE_EPOCH=1509109477
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
