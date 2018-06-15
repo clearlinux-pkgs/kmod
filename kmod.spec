@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 25
-Release  : 37
+Release  : 38
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-25.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-25.tar.xz
 Summary  : Library to deal with kernel modules
