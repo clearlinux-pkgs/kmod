@@ -27,7 +27,7 @@ BuildRequires : pkgconfig(32liblzma)
 BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
+
 BuildRequires : sed
 
 %description
