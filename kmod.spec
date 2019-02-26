@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 26
-Release  : 39
+Release  : 40
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-26.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-26.tar.xz
 Summary  : Library to deal with kernel modules
@@ -46,7 +46,6 @@ Summary: bin components for the kmod package.
 Group: Binaries
 Requires: kmod-data = %{version}-%{release}
 Requires: kmod-license = %{version}-%{release}
-Requires: kmod-man = %{version}-%{release}
 
 %description bin
 bin components for the kmod package.
@@ -66,7 +65,9 @@ Group: Development
 Requires: kmod-lib = %{version}-%{release}
 Requires: kmod-bin = %{version}-%{release}
 Requires: kmod-data = %{version}-%{release}
+Requires: kmod-man = %{version}-%{release}
 Provides: kmod-devel = %{version}-%{release}
+Requires: kmod = %{version}-%{release}
 
 %description dev
 dev components for the kmod package.
@@ -131,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1549579819
+export SOURCE_DATE_EPOCH=1551150131
 unset LD_AS_NEEDED
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -142,10 +143,10 @@ make  %{?_smp_mflags} LIBS=-lpthread
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export ASFLAGS="$ASFLAGS --32"
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static --enable-tools --disable-test-modules   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags} LIBS=-lpthread
 popd
@@ -159,7 +160,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1549579819
+export SOURCE_DATE_EPOCH=1551150131
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kmod
 cp COPYING %{buildroot}/usr/share/package-licenses/kmod/COPYING
