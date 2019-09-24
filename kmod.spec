@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 26
-Release  : 40
+Release  : 41
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-26.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-26.tar.xz
 Summary  : Library to deal with kernel modules
@@ -31,7 +31,6 @@ BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(openssl)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
 BuildRequires : sed
 
 %description
@@ -65,7 +64,6 @@ Group: Development
 Requires: kmod-lib = %{version}-%{release}
 Requires: kmod-bin = %{version}-%{release}
 Requires: kmod-data = %{version}-%{release}
-Requires: kmod-man = %{version}-%{release}
 Provides: kmod-devel = %{version}-%{release}
 Requires: kmod = %{version}-%{release}
 
@@ -131,27 +129,28 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1551150131
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569359812
 unset LD_AS_NEEDED
-export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
 %configure --disable-static --enable-tools --disable-test-modules
-make  %{?_smp_mflags} LIBS=-lpthread
+make  %{?_smp_mflags}  LIBS=-lpthread
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="$ASFLAGS --32"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --enable-tools --disable-test-modules   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make  %{?_smp_mflags} LIBS=-lpthread
+make  %{?_smp_mflags}  LIBS=-lpthread
 popd
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -160,7 +159,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1551150131
+export SOURCE_DATE_EPOCH=1569359812
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kmod
 cp COPYING %{buildroot}/usr/share/package-licenses/kmod/COPYING
@@ -205,7 +204,7 @@ ln -s kmod %{buildroot}/usr/bin/rmmod
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/libkmod.h
 /usr/lib64/libkmod.so
 /usr/lib64/pkgconfig/libkmod.pc
 

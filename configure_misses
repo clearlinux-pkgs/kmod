@@ -1,12 +1,6 @@
-Configure miss: xsltproc
 Configure miss: mkosi
 Configure miss: finit_module
 Configure miss: GTKDOC_DEPS
-Configure miss: if gcc supports flag -Wformat-security in envvar CFLAGS
-Configure miss: if gcc supports flag -Wformat-nonliteral in envvar CFLAGS
-Configure miss: xsltproc
 Configure miss: mkosi
 Configure miss: finit_module
 Configure miss: GTKDOC_DEPS
-Configure miss: if gcc supports flag -Wformat-security in envvar CFLAGS
-Configure miss: if gcc supports flag -Wformat-nonliteral in envvar CFLAGS
