@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 27
-Release  : 42
+Release  : 43
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-27.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-27.tar.xz
 Summary  : Library to deal with kernel modules
@@ -32,6 +32,7 @@ BuildRequires : pkgconfig(libcrypto)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : sed
+Patch1: 0001-Revert-Lookup-aliases-in-the-modules.builtin.modinfo.patch
 
 %description
 kmod - Linux kernel module handling
@@ -65,7 +66,6 @@ Requires: kmod-lib = %{version}-%{release}
 Requires: kmod-bin = %{version}-%{release}
 Requires: kmod-data = %{version}-%{release}
 Provides: kmod-devel = %{version}-%{release}
-Requires: kmod = %{version}-%{release}
 Requires: kmod = %{version}-%{release}
 
 %description dev
@@ -123,6 +123,7 @@ man components for the kmod package.
 %prep
 %setup -q -n kmod-27
 cd %{_builddir}/kmod-27
+%patch1 -p1
 pushd ..
 cp -a kmod-27 build32
 popd
@@ -132,9 +133,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582126410
+export SOURCE_DATE_EPOCH=1583369831
 unset LD_AS_NEEDED
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-lto -fno-semantic-interposition "
@@ -162,7 +162,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1582126410
+export SOURCE_DATE_EPOCH=1583369831
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/kmod
 cp %{_builddir}/kmod-27/COPYING %{buildroot}/usr/share/package-licenses/kmod/545f380fb332eb41236596500913ff8d582e3ead
