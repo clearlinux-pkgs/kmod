@@ -4,7 +4,7 @@
 #
 Name     : kmod
 Version  : 30
-Release  : 46
+Release  : 47
 URL      : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
 Summary  : Library to deal with kernel modules
