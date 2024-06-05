@@ -1,2 +1,3 @@
 --enable-tools
 --disable-test-modules
+--with-zstd
