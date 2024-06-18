@@ -1,0 +1,11 @@
+--- kmod-32/Makefile.am~	2024-03-06 03:26:08.000000000 +0000
++++ kmod-32/Makefile.am	2024-06-18 16:11:31.814030236 +0000
+@@ -113,7 +113,7 @@
+ 	fi
+ if BUILD_TOOLS
+ 	for tool in insmod lsmod rmmod depmod modprobe modinfo; do \
+-		$(LN_S) kmod $(DESTDIR)$(bindir)/$$tool; \
++		$(LN_S) -f kmod $(DESTDIR)$(bindir)/$$tool; \
+ 	done
+ endif
+ 

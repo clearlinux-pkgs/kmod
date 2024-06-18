@@ -1,15 +1,14 @@
-Configure miss: GTKDOC_DEPS
-Configure miss: GTKDOC_DEPS
-Configure miss: GTKDOC_DEPS
 Configure miss: finit_module
 Configure miss: finit_module
 Configure miss: finit_module
+Configure miss: gcc option to enable large file support
+Configure miss: gcc option to enable large file support
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0
+Configure miss: glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0
+Configure miss: glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0
 Configure miss: i686-generic-linux-gnu-file
-Configure miss: mkosi
-Configure miss: mkosi
-Configure miss: mkosi
 Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: x86_64-generic-linux-gnu-file
